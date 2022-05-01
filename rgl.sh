@@ -65,6 +65,8 @@ loadRandomRom () {
         /media/fat/Scripts/.mister_batch_control/mbc load_rom "GENESIS" "$random_rom_path"
     elif [[ $random_rom_extension == "md" ]]; then
         /media/fat/Scripts/.mister_batch_control/mbc load_rom "MEGADRIVE" "$random_rom_path"
+    elif [[ $random_rom_extension == "neo" ]]; then
+        /media/fat/Scripts/.mister_batch_control/mbc load_rom "NEOGEO" "$random_rom_path"
     elif [[ $random_rom_extension == "nes" ]]; then
         /media/fat/Scripts/.mister_batch_control/mbc load_rom "NES" "$random_rom_path"
     elif [[ $random_rom_extension == "pce" ]]; then
@@ -94,12 +96,16 @@ scanRoms () {
         find "/media/$fat_or_usb0/games/Genesis" -iregex '.*\.\(bin\|gen\|md\)$' ! -name '*[Rr][Ee][Aa][Dd][Mm][Ee]*' -exec ls >> "rom_paths_all.txt" {} \;
     printf "Done\n\n"
 
-    printf "Scanning SMS ROMS... "
-        find "/media/$fat_or_usb0/games/SMS" -iregex '.*\.\(sms\)$' ! -name '*[Rr][Ee][Aa][Dd][Mm][Ee]*' -exec ls >> "rom_paths_all.txt" {} \;
+    printf "Scanning NEOGEO ROMS... "
+        find "/media/$fat_or_usb0/games/NEOGEO" -iregex '.*\.\(neo\)$' ! -name '*[Rr][Ee][Aa][Dd][Mm][Ee]*' -exec ls >> "rom_paths_all.txt" {} \;
     printf "Done\n\n"
 
     printf "Scanning NES ROMS... "
         find "/media/$fat_or_usb0/games/NES" -iregex '.*\.\(nes\|fds\)$' ! -name '*[Rr][Ee][Aa][Dd][Mm][Ee]*' -exec ls >> "rom_paths_all.txt" {} \;
+    printf "Done\n\n"
+
+    printf "Scanning SMS ROMS... "
+        find "/media/$fat_or_usb0/games/SMS" -iregex '.*\.\(sms\)$' ! -name '*[Rr][Ee][Aa][Dd][Mm][Ee]*' -exec ls >> "rom_paths_all.txt" {} \;
     printf "Done\n\n"
 
     printf "Scanning SNES ROMS... "
