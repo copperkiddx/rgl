@@ -5,7 +5,7 @@
 
 #=========   USER OPTIONS   =========
 
-fat_or_usb0="fat" # Location of your ROMS: Use "fat" for microSD or "usb0" for hard drive
+fat_or_usb0="usb0" # Location of your ROMS: Use "fat" for microSD or "usb0" for hard drive
 hide_rom_name_on_launch="1" # Use "0" to display the game name upon launch OR "1" to display "???" instead of the game name
 
 #=========   END USER OPTIONS   =========
@@ -23,9 +23,11 @@ checkDependencies () {
         ping -c 1 8.8.8.8 &>/dev/null; [ "$?" != "0" ] && clear && printf "ERROR: No internet connection - Missing dependencies cannot be installed. Please try again\n\n" && exit 126 # Test internet
         printf "Installing missing dependencies from Github (mbc)..."
         mkdir /media/fat/Scripts/.mister_batch_control
-        wget -qP /media/fat/Scripts/.mister_batch_control "https://github.com/pocomane/MiSTer_Batch_Control/releases/download/untagged-533dda82c9fd24faa6f1/mbc"
+        #wget -qP /media/fat/Scripts/.mister_batch_control "https://github.com/pocomane/MiSTer_Batch_Control/releases/download/untagged-533dda82c9fd24faa6f1/mbc"
+        wget -qP /media/fat/Scripts/.mister_batch_control "https://github.com/pocomane/MiSTer_Batch_Control/releases/download/untagged-c2d04013d6822212fd25/mbc"
         sleep 1
-        if md5sum --status -c <(echo ea32cf0d76812a9994b27365437393f2 /media/fat/Scripts/.mister_batch_control/mbc) # Check md5sum with exact mbc file
+        #if md5sum --status -c <(echo ea32cf0d76812a9994b27365437393f2 /media/fat/Scripts/.mister_batch_control/mbc) # Check md5sum with exact mbc file
+        if md5sum --status -c <(echo 9c86b26ae28b266ab5f7b63e95020158 /media/fat/Scripts/.mister_batch_control/mbc) # Check md5sum with exact mbc file
         then
             clear
             printf "SUCCESS! Installed to \"/media/fat/Scripts/.mister_batch_control\""
