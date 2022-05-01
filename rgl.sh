@@ -13,6 +13,7 @@ hide_rom_name_on_launch="1" # Use "0" to display the game name upon launch OR "1
 #=========   FUNCTIONS   =========
 
 checkDependencies () {
+
     config_folder="/media/fat/Scripts/.rgl"
     [ ! -d "$config_folder" ] && mkdir "$config_folder" # If config folder doesn't exist, create it
     cd $config_folder
@@ -41,6 +42,9 @@ checkDependencies () {
 }
 
 loadRandomRom () {
+
+    cd /media/fat/Scripts/.rgl
+
     total_roms="`cat rom_count_all.txt`"
     random_number="$(( $RANDOM % $total_roms + 1 ))"
     random_rom_path="`sed -n "$random_number"p rom_paths_all.txt`"
@@ -80,12 +84,13 @@ loadRandomRom () {
     elif [[ $random_rom_extension == "sms" ]]; then
         /media/fat/Scripts/.mister_batch_control/mbc load_rom "SMS" "$random_rom_path"
     else
-        printf "Something went wrong... exiting";
+        printf "Something went wrong... exiting\n\n";
         exit 1
     fi
 }
 
 scanRoms () {
+
     printf "\n\nScanning GAMEBOY ROMS... "
         find "/media/$fat_or_usb0/games/GAMEBOY" -iregex '.*\.\(gb\|gbc\)$' ! -name '*[Rr][Ee][Aa][Dd][Mm][Ee]*' -exec ls >> "rom_paths_all.txt" {} \;
     printf "Done\n\n"
@@ -118,6 +123,7 @@ scanRoms () {
         find "/media/$fat_or_usb0/games/TGFX16" -iregex '.*\.\(pce\)$' ! -name '*[Rr][Ee][Aa][Dd][Mm][Ee]*' -exec ls >> "rom_paths_all.txt" {} \;
     printf "Done\n\n"
 
+    cd /media/fat/Scripts/.rgl
     # generate line count and export to rom_count_$console.txt
     cat "rom_paths_all.txt" | sed '/^\s*$/d' | wc -l > "rom_count_all.txt"
     total_roms="`cat rom_count_all.txt`"
@@ -133,7 +139,7 @@ scanRoms () {
 #=========   BEGIN MAIN PROGRAM   =========
 
 # If the console has already been scanned, check for new roms, then load game, Otherwise, run an initial scan and then load a random game
-if [[ -f "scanned_all" ]]
+if [[ -f "/media/fat/Scripts/.rgl/scanned_all" ]]
 then
     loadRandomRom
 else
